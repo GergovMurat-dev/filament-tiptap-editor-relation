@@ -426,6 +426,9 @@ export default function tiptap({
                 case 'link':
                     this.insertLink(event);
                     return;
+                case 'relation':
+                    this.insertLink(event);
+                    return;
                 case 'source':
                     this.insertSource(event);
                     return;
