@@ -277,6 +277,10 @@
         text-decoration: underline;
     }
 
+    relation {
+        border-bottom: 1px solid #FBBF24;
+    }
+
     a[id] {
         color: theme('colors.black');
         text-decoration: none;

@@ -146,6 +146,13 @@ class TiptapEditor extends Field
                     array $arguments
                 ) => $this->getCustomListener('filament_tiptap_link', $component, $statePath, $arguments),
             ],
+            'tiptap::setRelationContent' => [
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_relation', $component, $statePath, $arguments),
+            ],
             'tiptap::setMediaContent' => [
                 fn (
                     TiptapEditor $component,
@@ -178,6 +185,7 @@ class TiptapEditor extends Field
             fn (): Action => $this->getInsertBlockAction(),
             fn (): Action => $this->getUpdateBlockAction(),
             fn (): Action => $this->getEditMediaAction(),
+            fn (): Action => $this->getRelationAction()
         ]);
     }
 

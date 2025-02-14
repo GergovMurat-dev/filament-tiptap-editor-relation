@@ -55,6 +55,7 @@ import {
     IdExtension,
     StyleExtension,
     StatePath,
+    Relation
 } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -92,6 +93,12 @@ let coreExtensions = {
             hreflang: null,
             class: null,
         },
+    })],
+    relation: [Relation.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+            class: null,
+        }
     })],
     media: [CustomImage.configure({inline: true})],
     oembed: [Youtube, Vimeo, Video],
@@ -426,6 +433,9 @@ export default function tiptap({
                 case 'link':
                     this.insertLink(event);
                     return;
+                case 'relation':
+                    this.insertRelation(event);
+                    return;
                 case 'source':
                     this.insertSource(event);
                     return;
@@ -549,6 +559,22 @@ export default function tiptap({
                 })
                 .selectTextblockEnd()
                 .run();
+        },
+        insertRelation(event) {
+            const relation = event.detail;
+
+            editor
+                .chain()
+                .focus()
+                .setTextSelection({from: relation.coordinates[0].$from.pos, to: relation.coordinates[0].$to.pos})
+                .extendMarkRange('relation')
+                .setRelation({
+                    target: relation.target ?? null,
+                    model: relation.model ?? null,
+                    id: relation.id ?? null,
+                })
+                .selectTextblockEnd()
+                .run()
         },
         unsetLink() {
             editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
