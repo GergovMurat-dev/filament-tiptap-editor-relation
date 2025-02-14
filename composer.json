@@ -1,5 +1,5 @@
 {
-    "name": "awcodes/filament-tiptap-editor",
+    "name": "gergovm/filament-tiptap-editor-relation",
     "type": "package",
     "description": "A Tiptap integration for Filament Admin/Forms.",
     "keywords": [
