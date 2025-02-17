@@ -17,7 +17,7 @@
     x-data="{
         openModal() {
             let relation = this.editor().getAttributes('relation');
-            let link = thi.editor().getAttributes('link')
+            let link = this.editor().getAttributes('link')
 
             console.log(relation, link)
 
