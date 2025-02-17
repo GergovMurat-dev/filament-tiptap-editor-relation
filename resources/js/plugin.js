@@ -429,7 +429,7 @@ export default function tiptap({
                     this.insertLink(event);
                     return;
                 case 'relation':
-                    this.insertLink(event);
+                    this.insertRelation(event);
                     return;
                 case 'source':
                     this.insertSource(event);
@@ -525,8 +525,6 @@ export default function tiptap({
             }
         },
         insertLink(event) {
-            console.log(event)
-
             let link = event.detail;
 
             if (link.href === null && link.id === null) {
@@ -556,6 +554,18 @@ export default function tiptap({
                 })
                 .selectTextblockEnd()
                 .run();
+        },
+        insertRelation(event) {
+            const relation = event.detail;
+
+            editor
+                .chain()
+                .focus()
+                .setTextSelection({from: link.coordinates[0].$from.pos, to: link.coordinates[0].$to.pos})
+                .extendMarkRange('relation')
+                .setRelation(relation)
+                .run()
+
         },
         unsetLink() {
             editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
