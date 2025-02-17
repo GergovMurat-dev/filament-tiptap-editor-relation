@@ -8,20 +8,27 @@ export const Relation = Link.extend({
     return {
       ...this.parent?.(),
       protocols: [],
-      HTMLAttributes: {},
+      HTMLAttributes: {
+        target: null,
+        model: null,
+        id: null,
+      },
     }
   },
 
   addAttributes() {
     return {
       target: {
-        default: null,
+        default: this.options.HTMLAttributes.target,
+        parseHTML(element) {
+          return element.getAttribute('target')
+        }
       },
       model: {
-        default: null,
+        default: this.options.HTMLAttributes.model,
       },
       id: {
-        default: null,
+        default: this.options.HTMLAttributes.id,
       }
     }
   },

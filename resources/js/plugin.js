@@ -530,8 +530,6 @@ export default function tiptap({
             }
         },
         insertLink(event) {
-            console.log(event, {message: "В методе insertLink"})
-
             let link = event.detail;
 
             if (link.href === null && link.id === null) {
@@ -569,7 +567,7 @@ export default function tiptap({
                 .chain()
                 .focus()
                 .setTextSelection({from: relation.coordinates[0].$from.pos, to: relation.coordinates[0].$to.pos})
-                .extendMarkRange('link')
+                .extendMarkRange('relation')
                 .setRelation({
                     target: relation.target ?? null,
                     model: relation.model ?? null,
