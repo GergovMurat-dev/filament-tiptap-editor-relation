@@ -1,5 +1,5 @@
-import {mergeAttributes} from '@tiptap/core';
-import Link from "@tiptap/extension-link";
+import { Mark, mergeAttributes } from '@tiptap/core'
+import Link from '@tiptap/extension-link'
 
 export const Relation = Link.extend({
   name: 'relation',
@@ -7,41 +7,81 @@ export const Relation = Link.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      openOnClick: true,
-      linkOnPaste: false,
-      autolink: false,
       protocols: [],
-      HTMLAttributes: {}
+      HTMLAttributes: {},
     }
   },
 
   addAttributes() {
     return {
-      model_id: {
-        default: null
-      },
+      target: {
+        default: null,
+      }
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: 'relation'
-      }
-    ];
+        tag: 'relation',
+      },
+    ]
   },
 
-  renderHTML({HTMLAttributes}) {
+  renderHTML({ HTMLAttributes }) {
     return ['relation', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  addComment() {
+  addCommands() {
     return {
-      setRelation: attributes => ({chain}) => {
-        console.log(attributes);
-
-        return chain().setMark(this.name, attributes).run();
-      }
+      setRelation: attributes => ({ chain }) => {
+          return chain().setMark(this.name, attributes).run()
+      },
     }
-  }
+  },
 })
+
+// export const Relation = Link.extend({
+//   name: 'relation',
+//
+//   addOptions() {
+//     return {
+//       ...this.parent?.(),
+//       openOnClick: true,
+//       linkOnPaste: false,
+//       autolink: false,
+//       protocols: [],
+//       HTMLAttributes: {}
+//     }
+//   },
+//
+//   addAttributes() {
+//     return {
+//       model_id: {
+//         default: null
+//       },
+//     }
+//   },
+//
+//   parseHTML() {
+//     return [
+//       {
+//         tag: 'relation'
+//       }
+//     ];
+//   },
+//
+//   renderHTML({HTMLAttributes}) {
+//     return ['relation', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+//   },
+//
+//   addComment() {
+//     return {
+//       setRelation: attributes => ({chain}) => {
+//         console.log(attributes);
+//
+//         return chain().setMark(this.name, attributes).run();
+//       }
+//     }
+//   }
+// })

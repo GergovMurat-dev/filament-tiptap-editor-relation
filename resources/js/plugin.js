@@ -94,7 +94,12 @@ let coreExtensions = {
             class: null,
         },
     })],
-    relation: [Relation],
+    relation: [Relation.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+            class: null,
+        }
+    })],
     media: [CustomImage.configure({inline: true})],
     oembed: [Youtube, Vimeo, Video],
     'ordered-list': [OrderedList],
@@ -201,6 +206,7 @@ export default function tiptap({
                 HardBreak,
                 History,
                 TextStyle,
+                Relation,
                 DragAndDropExtension,
                 ClassExtension,
                 IdExtension,
@@ -418,11 +424,6 @@ export default function tiptap({
         insertContent(event) {
             if (event.detail.statePath !== this.statePath) return
 
-            console.log({
-                message: "Метод insertContent",
-                event: event
-            })
-
             switch (event.detail.type) {
                 case 'media':
                     this.insertMedia(event);
@@ -561,15 +562,17 @@ export default function tiptap({
                 .run();
         },
         insertRelation(event) {
-            console.log(event, {message: 'Метод пройден'})
             const relation = event.detail;
 
             editor
                 .chain()
                 .focus()
                 .setTextSelection({from: link.coordinates[0].$from.pos, to: link.coordinates[0].$to.pos})
-                .extendMarkRange('relation')
-                .setRelation(relation)
+                .extendMarkRange('link')
+                .setRelation({
+                    target: "Test text"
+                })
+                .selectTextblockEnd()
                 .run()
         },
         unsetLink() {
