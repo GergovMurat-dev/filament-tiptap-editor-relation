@@ -17,12 +17,11 @@
     x-data="{
         openModal() {
             let relation = this.editor().getAttributes('relation');
-            let link = this.editor().getAttributes('link')
-
-            console.log(relation, link)
 
             let arguments = {
-                title: 'Какой-то рандомный текст',
+                target: relation.target || null,
+                model: relation.model || null,
+                id: relation.id || null,
                 coordinates: this.editor().view.state.selection.ranges,
             };
 

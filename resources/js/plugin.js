@@ -563,11 +563,7 @@ export default function tiptap({
                 .run();
         },
         insertRelation(event) {
-            console.log(event, {message: "В методе insertRelation"})
-
             const relation = event.detail;
-
-            console.log(relation);
 
             editor
                 .chain()
@@ -575,7 +571,9 @@ export default function tiptap({
                 .setTextSelection({from: relation.coordinates[0].$from.pos, to: relation.coordinates[0].$to.pos})
                 .extendMarkRange('link')
                 .setRelation({
-                    target: "Test text"
+                    target: relation.target ?? null,
+                    model: relation.model ?? null,
+                    id: relation.id ?? null,
                 })
                 .selectTextblockEnd()
                 .run()

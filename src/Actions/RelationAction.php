@@ -21,7 +21,9 @@ class RelationAction extends Action
         $this
             ->modalWidth('lg')
             ->arguments([
-                'title' => ''
+                'target' => '',
+                'model' => '',
+                'id' => ''
             ])
             ->mountUsing(function (ComponentContainer $form, array $arguments) {
                 $form->fill($arguments);
@@ -30,14 +32,16 @@ class RelationAction extends Action
                 return "Линкованный текст";
             })
             ->form([
-                TextInput::make('title')
+                TextInput::make('target')
             ])
             ->action(function (TiptapEditor $component, $data, $arguments) {
                 $component->getLivewire()->dispatch(
                     event: 'insertFromAction',
                     type: 'relation',
                     statePath: $component->getStatePath(),
-                    title: $data['title'],
+                    target: $data['target'],
+                    model: 'War/Battles',
+                    id: 10,
                     coordinates: $arguments['coordinates'],
                 );
 
