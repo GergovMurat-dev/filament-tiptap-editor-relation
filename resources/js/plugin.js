@@ -206,7 +206,6 @@ export default function tiptap({
                 HardBreak,
                 History,
                 TextStyle,
-                Relation,
                 DragAndDropExtension,
                 ClassExtension,
                 IdExtension,
@@ -573,7 +572,7 @@ export default function tiptap({
             editor
                 .chain()
                 .focus()
-                .setTextSelection({from: link.coordinates[0].$from.pos, to: link.coordinates[0].$to.pos})
+                .setTextSelection({from: relation.coordinates[0].$from.pos, to: relation.coordinates[0].$to.pos})
                 .extendMarkRange('link')
                 .setRelation({
                     target: "Test text"
