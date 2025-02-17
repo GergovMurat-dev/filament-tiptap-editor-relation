@@ -55,6 +55,7 @@ import {
     IdExtension,
     StyleExtension,
     StatePath,
+    Relation
 } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -93,6 +94,7 @@ let coreExtensions = {
             class: null,
         },
     })],
+    relation: [Relation],
     media: [CustomImage.configure({inline: true})],
     oembed: [Youtube, Vimeo, Video],
     'ordered-list': [OrderedList],
@@ -523,6 +525,8 @@ export default function tiptap({
             }
         },
         insertLink(event) {
+            console.log(event)
+
             let link = event.detail;
 
             if (link.href === null && link.id === null) {

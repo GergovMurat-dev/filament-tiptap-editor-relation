@@ -86,4 +86,11 @@ trait HasCustomActions
 
         return $action::make();
     }
+
+    public function getRelationAction(): Action
+    {
+        $action = config('filament-tiptap-editor.relation_action');
+
+        return $action::make();
+    }
 }

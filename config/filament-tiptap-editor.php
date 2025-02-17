@@ -23,7 +23,7 @@ return [
             'link', 'media', 'oembed', 'table', 'grid-builder', 'details', '|', 'code', 'code-block', 'source', 'blocks',
         ],
         'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
-        'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
+        'minimal' => ['relation', 'bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'none' => [],
     ],
 
@@ -39,6 +39,7 @@ return [
     'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
     'grid_builder_action' => FilamentTiptapEditor\Actions\GridBuilderAction::class,
     'oembed_action' => FilamentTiptapEditor\Actions\OEmbedAction::class,
+    'relation_action' => FilamentTiptapEditor\Actions\RelationAction::class,
 
     /*
     |--------------------------------------------------------------------------
