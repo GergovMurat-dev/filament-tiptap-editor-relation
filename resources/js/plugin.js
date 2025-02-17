@@ -418,6 +418,11 @@ export default function tiptap({
         insertContent(event) {
             if (event.detail.statePath !== this.statePath) return
 
+            console.log({
+                message: "Метод insertContent",
+                event: event
+            })
+
             switch (event.detail.type) {
                 case 'media':
                     this.insertMedia(event);
@@ -556,6 +561,7 @@ export default function tiptap({
                 .run();
         },
         insertRelation(event) {
+            console.log(event, {message: 'Метод пройден'})
             const relation = event.detail;
 
             editor
@@ -565,7 +571,6 @@ export default function tiptap({
                 .extendMarkRange('relation')
                 .setRelation(relation)
                 .run()
-
         },
         unsetLink() {
             editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
