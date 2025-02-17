@@ -16,6 +16,11 @@
     :icon="$icon"
     x-data="{
         openModal() {
+            let relation = this.editor().getAttributes('relation');
+            let link = thi.editor().getAttributes('link')
+
+            console.log(relation, link)
+
             let arguments = {
                 title: 'Какой-то рандомный текст',
                 coordinates: this.editor().view.state.selection.ranges,
