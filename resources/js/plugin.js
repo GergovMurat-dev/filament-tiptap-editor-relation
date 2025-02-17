@@ -531,6 +531,8 @@ export default function tiptap({
             }
         },
         insertLink(event) {
+            console.log(event, {message: "В методе insertLink"})
+
             let link = event.detail;
 
             if (link.href === null && link.id === null) {
@@ -562,7 +564,11 @@ export default function tiptap({
                 .run();
         },
         insertRelation(event) {
+            console.log(event, {message: "В методе insertRelation"})
+
             const relation = event.detail;
+
+            console.log(relation);
 
             editor
                 .chain()
