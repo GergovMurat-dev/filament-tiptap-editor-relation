@@ -11,7 +11,7 @@ class RelationAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'filament_tiptap_relation_link';
+        return 'filament_tiptap_relation';
     }
 
     protected function setUp(): void
