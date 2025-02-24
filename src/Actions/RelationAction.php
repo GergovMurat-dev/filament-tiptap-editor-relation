@@ -42,7 +42,7 @@ class RelationAction extends Action
 
                         return $service->search($search);
                     })
-                    ->options(function (string $state) {
+                    ->options(function (?string $state) {
                         /** @var RelationSearchProvider $service */
                         $service = app(config('filament-tiptap-editor.search_provider'));
 
