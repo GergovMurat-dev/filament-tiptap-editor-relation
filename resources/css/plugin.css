@@ -281,6 +281,10 @@
         border-bottom: 1px solid #FBBF24;
     }
 
+    .relation-error {
+        border-bottom: 1px solid red;
+    }
+
     a[id] {
         color: theme('colors.black');
         text-decoration: none;
