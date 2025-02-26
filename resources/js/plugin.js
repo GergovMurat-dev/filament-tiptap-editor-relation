@@ -340,6 +340,8 @@ export default function tiptap({
 
             this.initEditor(this.state);
 
+            console.log(this.$el.querySelectorAll('relation'));
+
             let sortableEl = this.$el.parentElement.closest("[x-sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", () => {
