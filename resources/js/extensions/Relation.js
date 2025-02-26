@@ -22,6 +22,12 @@ export const Relation = Link.extend({
           return element.getAttribute('target')
         }
       },
+      style: {
+        default: this.options.HTMLAttributes.style,
+        parseHTML(element) {
+          return element.getAttribute('style')
+        }
+      }
     }
   },
 
