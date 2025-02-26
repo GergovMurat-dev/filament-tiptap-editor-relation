@@ -51,7 +51,50 @@
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder)
                     })"
-                    x-init="$nextTick(() => { init() })"
+                    x-init="() => {
+                        $nextTick(() => { init() })
+                        $nextTick(() => {
+                            const relations = $el.querySelectorAll('relation');
+                            const targets = [];
+
+                            relations.forEach((relation) => {
+                                const target = relation.getAttribute('target');
+                                targets.push(target);
+                            });
+
+                            const queryParams = new URLSearchParams({ targets: JSON.stringify(targets) }).toString();
+
+                            @php
+
+                            /** @var \FilamentTiptapEditor\Services\RelationSearchProvider $service */
+                            $service = app(config('filament-tiptap-editor.search_provider'));
+                            $route = $service::validateRoute();
+
+                            @endphp
+
+                            fetch(`{{ $route }}?${queryParams}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const { data : { items } } = data;
+
+                                Object.keys(items ?? {}).forEach((target) => {
+                                    const isValid = items[target];
+
+                                    if (!isValid) {
+                                        $el.querySelector(`relation[target='${target}']`).style.background = '#efa1a1'
+                                        $el.querySelector(`relation[target='${target}']`).style.color = 'black'
+                                        $el.querySelector(`relation[target='${target}']`).style.fontStyle = 'italic'
+                                    }
+                                });
+                            })
+                            .catch(err => console.error(err));
+                        })
+                    }"
                     x-on:click.away="blur()"
                     x-on:keydown.escape="fullScreenMode = false"
                     x-on:insert-content.window="insertContent($event)"

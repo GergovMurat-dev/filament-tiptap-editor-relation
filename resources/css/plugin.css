@@ -278,11 +278,9 @@
     }
 
     relation {
-        border-bottom: 1px solid #FBBF24;
-    }
-
-    relation.relation-error {
-        border-bottom: 1px solid red;
+        background: #7bd37b;
+        color: black;
+        font-style: italic;
     }
 
     a[id] {
