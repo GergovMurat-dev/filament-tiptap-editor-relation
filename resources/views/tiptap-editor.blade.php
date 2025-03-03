@@ -99,6 +99,7 @@
                     x-on:keydown.escape="fullScreenMode = false"
                     x-on:insert-content.window="insertContent($event)"
                     x-on:unset-link.window="$event.detail.statePath === '{{ $statePath }}' ? unsetLink() : null"
+                    x-on:unset-relation.window="$event.detail.statePath === '{{ $statePath }}' ? unsetRelation() : null"
                     x-on:update-editor-content.window="updateEditorContent($event)"
                     x-on:refresh-tiptap-editors.window="refreshEditorContent()"
                     x-on:dragged-block.stop="$wire.mountFormComponentAction('{{ $statePath }}', 'insertBlock', {

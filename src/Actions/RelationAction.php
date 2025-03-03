@@ -7,6 +7,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Select;
 use FilamentTiptapEditor\Services\RelationSearchProvider;
 use FilamentTiptapEditor\TiptapEditor;
+use Illuminate\Support\HtmlString;
 
 class RelationAction extends Action
 {
@@ -59,6 +60,22 @@ class RelationAction extends Action
                 );
 
                 $component->state($component->getState());
-            });
+            })
+            ->extraModalFooterActions(function (Action $action): array {
+                if ($action->getArguments()['target']) {
+                    return [
+                        $action->makeModalSubmitAction('remove_relation', [])
+                            ->label('Удалить')
+                            ->color('danger')
+                            ->extraAttributes(function () use ($action) {
+                                return [
+                                    'x-on:click' => new HtmlString("\$dispatch('unset-relation', {'statePath': '{$action->getComponent()->getStatePath()}'}); close()")
+                                ];
+                            }),
+                    ];
+                }
+
+                return [];
+            });;
     }
 }

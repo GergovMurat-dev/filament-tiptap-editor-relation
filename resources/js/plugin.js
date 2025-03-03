@@ -563,6 +563,12 @@ export default function tiptap({
         insertRelation(event) {
             const relation = event.detail;
 
+            if (!relation.target) {
+                this.unsetRelation();
+
+                return;
+            }
+
             editor
                 .chain()
                 .focus()
@@ -578,6 +584,9 @@ export default function tiptap({
         },
         unsetLink() {
             editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
+        },
+        unsetRelation() {
+            editor.chain().focus().extendMarkRange('relation').unsetRelation().selectTextblockEnd().run();
         },
         insertSource(event) {
             this.updateEditorContent(event.detail.source);

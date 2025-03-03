@@ -20,14 +20,14 @@ export const Relation = Link.extend({
         default: this.options.HTMLAttributes.target,
         parseHTML(element) {
           return element.getAttribute('target')
-        }
+        },
       },
       style: {
         default: this.options.HTMLAttributes.style,
         parseHTML(element) {
           return element.getAttribute('style')
-        }
-      }
+        },
+      },
     }
   },
 
@@ -46,7 +46,10 @@ export const Relation = Link.extend({
   addCommands() {
     return {
       setRelation: attributes => ({ chain }) => {
-          return chain().setMark(this.name, attributes).run()
+        return chain().setMark(this.name, attributes).run()
+      },
+      unsetRelation: attributes => ({ chain }) => {
+        return chain().unsetMark(this.name, { extendEmptyMarkRange: true }).run()
       },
     }
   },
