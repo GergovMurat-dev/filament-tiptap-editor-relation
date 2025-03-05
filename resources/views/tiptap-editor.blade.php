@@ -54,6 +54,9 @@
                     x-init="() => {
                         $nextTick(() => { init() })
                         $nextTick(() => {
+                            const MODEL_TYPE = 2
+                            const MODEL_ID = 3
+
                             const relations = $el.querySelectorAll('relation');
                             const targets = [];
 
@@ -62,7 +65,19 @@
                                 targets.push(target);
                             });
 
-                            const queryParams = new URLSearchParams({ targets: JSON.stringify(targets) }).toString();
+                            const currentUrl = window.location.pathname
+
+                            const splitedUrl = currentUrl.split('/')
+
+                            const modelType = splitedUrl[MODEL_TYPE]
+                            const modelId = splitedUrl[MODEL_ID]
+
+                            const data = {
+                                targets,
+                                modelId,
+                                modelType,
+                                url: currentUrl
+                            }
 
                             @php
 
@@ -72,11 +87,13 @@
 
                             @endphp
 
-                            fetch(`{{ $route }}?${queryParams}`, {
-                                method: 'GET',
+                            fetch(`{{ $route }}`, {
+                                method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
-                                }
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify(data)
                             })
                             .then(response => response.json())
                             .then(data => {
