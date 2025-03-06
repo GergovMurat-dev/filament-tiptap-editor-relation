@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor\Actions;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Get;
 use FilamentTiptapEditor\Services\RelationSearchProvider;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\HtmlString;
@@ -20,6 +21,9 @@ class RelationAction extends Action
     {
         parent::setUp();
 
+        /** @var RelationSearchProvider $service */
+        $service = app(config('filament-tiptap-editor.search_provider'));
+
         $this
             ->modalWidth('lg')
             ->arguments([
@@ -27,7 +31,7 @@ class RelationAction extends Action
             ])
             ->mountUsing(function (ComponentContainer $form, array $arguments) {
                 $form->fill([
-                    'target' => $arguments['target']
+                    'target' => $arguments['target'] ?? $arguments['selectedText'] ?? ''
                 ]);
             })
             ->modalHeading(function () {
@@ -35,19 +39,27 @@ class RelationAction extends Action
             })
             ->form([
                 Select::make('target')
+                    ->live()
+                    ->label('Связь')
                     ->native(false)
+                    ->required()
                     ->searchable()
-                    ->getSearchResultsUsing(function (string $search) {
-                        /** @var RelationSearchProvider $service */
-                        $service = app(config('filament-tiptap-editor.search_provider'));
-
+                    ->getSearchResultsUsing(function (string $search) use ($service) {
                         return $service->search($search);
                     })
-                    ->options(function (?string $state) {
-                        /** @var RelationSearchProvider $service */
-                        $service = app(config('filament-tiptap-editor.search_provider'));
+                    ->rule("regex:{$service::getUuidPatter()}")
+                    ->options(function (Get $get) use ($service) {
+                        $state = $get('target');
 
-                        return $service->parseModel($state);
+                        $pattern = $service::getUuidPatter();
+
+                        if ($state === null) {
+                            return [];
+                        }
+
+                        return preg_match($pattern, $state)
+                            ? $service->parseModel($state)
+                            : $service->search($state);
                     })
             ])
             ->action(function (TiptapEditor $component, $data, $arguments) {

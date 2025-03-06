@@ -8,5 +8,7 @@ interface RelationSearchProvider
 
     public function parseModel(?string $uuid): array;
 
+    public static function getUuidPattern(): string;
+
     public static function validateRoute(): string;
 }
