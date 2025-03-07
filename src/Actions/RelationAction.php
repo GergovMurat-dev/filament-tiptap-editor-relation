@@ -47,11 +47,11 @@ class RelationAction extends Action
                     ->getSearchResultsUsing(function (string $search) use ($service) {
                         return $service->search($search);
                     })
-                    ->rule("regex:{$service::getUuidPatter()}")
+                    ->rule("regex:{$service::getUuidPattern()}")
                     ->options(function (Get $get) use ($service) {
                         $state = $get('target');
 
-                        $pattern = $service::getUuidPatter();
+                        $pattern = $service::getUuidPattern();
 
                         if ($state === null) {
                             return [];
