@@ -1,6 +1,6 @@
 @props([
     'statePath' => null,
-    'icon' => 'link',
+    'icon' => 'redo',
     'label' => 'Отношение',
     'active' => true,
 ])
