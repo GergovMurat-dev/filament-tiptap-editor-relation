@@ -45,7 +45,21 @@ class RelationAction extends Action
                     ->required()
                     ->searchable()
                     ->getSearchResultsUsing(function (string $search) use ($service) {
-                        return $service->search($search);
+                        $components = request()->all();
+
+                        $options = [];
+
+                        if ($components) {
+                            $namespace = request()->query('namespace')
+                                ?? json_decode(request()->all()['components'][0]['snapshot'], true)['data']['namespace']
+                                ?? null;
+
+                            if ($namespace) {
+                                $options['namespace'] = $namespace;
+                            }
+                        }
+
+                        return $service->search($search, $options);
                     })
                     ->rule("regex:{$service::getUuidPattern()}")
                     ->options(function (Get $get) use ($service) {

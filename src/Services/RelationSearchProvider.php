@@ -4,7 +4,7 @@ namespace FilamentTiptapEditor\Services;
 
 interface RelationSearchProvider
 {
-    public function search(string $input): array;
+    public function search(string $input, ?array $options = null): array;
 
     public function parseModel(?string $uuid): array;
 
