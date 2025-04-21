@@ -17,6 +17,25 @@ class RelationAction extends Action
         return 'filament_tiptap_relation';
     }
 
+    public function options(): array
+    {
+        $components = request()->all();
+
+        $options = [];
+
+        if ($components) {
+            $namespace = request()->query('namespace')
+                ?? json_decode(request()->all()['components'][0]['snapshot'], true)['data']['namespace']
+                ?? null;
+
+            if ($namespace) {
+                $options['namespace'] = $namespace;
+            }
+        }
+
+        return $options;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -45,21 +64,7 @@ class RelationAction extends Action
                     ->required()
                     ->searchable()
                     ->getSearchResultsUsing(function (string $search) use ($service) {
-                        $components = request()->all();
-
-                        $options = [];
-
-                        if ($components) {
-                            $namespace = request()->query('namespace')
-                                ?? json_decode(request()->all()['components'][0]['snapshot'], true)['data']['namespace']
-                                ?? null;
-
-                            if ($namespace) {
-                                $options['namespace'] = $namespace;
-                            }
-                        }
-
-                        return $service->search($search, $options);
+                        return $service->search($search, $this->options());
                     })
                     ->rule("regex:{$service::getUuidPattern()}")
                     ->options(function (Get $get) use ($service) {
@@ -67,13 +72,13 @@ class RelationAction extends Action
 
                         $pattern = $service::getUuidPattern();
 
-                        if ($state === null) {
+                        if (! $state) {
                             return [];
                         }
 
                         return preg_match($pattern, $state)
                             ? $service->parseModel($state)
-                            : $service->search($state);
+                            : $service->search($state, $this->options());
                     })
             ])
             ->action(function (TiptapEditor $component, $data, $arguments) {
